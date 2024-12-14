@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
-use App\Models\LoveNote;
+use App\Models\Vote;
+use App\Models\Category;
 use Carbon\Carbon;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -90,16 +91,6 @@ class AdminController extends Controller
         // Redirect back with a success message
         return back()->with('success', 'Password updated successfully.');
     }
-
-
-    public function showVotes()
-    {
-        return view('admin.votes.index');
-    }
-
-    public function showWinners()
-    {
-        return view('admin.winners.index');
-    }
+    
 
 }

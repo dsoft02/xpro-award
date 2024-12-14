@@ -34,8 +34,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 
-    Route::get('votes', [AdminController::class, 'showVotes'])->name('votes.index');
-    Route::get('winners', [AdminController::class, 'showWinners'])->name('winners.index');
+    Route::get('votes', [VoteController::class, 'showVotes'])->name('votes.index');
+    Route::post('votes/reset', [VoteController::class, 'resetVotes'])->name('votes.reset');
+
+    Route::get('winners', [VoteController::class, 'showWinners'])->name('winners.index');
 
 
 });

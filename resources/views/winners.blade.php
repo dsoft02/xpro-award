@@ -59,7 +59,7 @@
 
                         <!-- Display the winner information -->
                         @php
-                        $winner = $category->nominees->first(); // Get the nominee with the highest vote count
+                        $winner = $category->nominees->first();
                         @endphp
 
                         @if($winner)

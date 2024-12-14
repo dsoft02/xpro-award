@@ -17,20 +17,18 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-xs-12 col-md-8 title-bar">
-        </div>
-
-        <div class="col-xs-12 col-md-4 text-right" style="margin-bottom:5px;">
-            <a class="btn btn-primary" href="{{ route('admin.categories.index') }}"><i class="fa fa-chevron-left"></i> Back to
-                List</a>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
-                    <div class="box-header">
-                        <h3 class="box-title">Enter category details</h3>
+                <div class="box-header">
+                    <h3 class="box-title">Enter category details</h3>
+
+                    <div class="box-tools pull-right">
+                        <a class="btn btn-primary" href="{{ route('admin.categories.index') }}"><i
+                                class="fa fa-chevron-left"></i>
+                            Back to
+                            List</a>
                     </div>
+                </div>
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -63,7 +61,8 @@
 
                                 <div class="box-footer">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <a class="btn btn-default" href="{{ route('admin.categories.index') }}" title="Cancel">Cancel</a>
+                                    <a class="btn btn-default" href="{{ route('admin.categories.index') }}"
+                                       title="Cancel">Cancel</a>
                                 </div>
                             </form>
 
