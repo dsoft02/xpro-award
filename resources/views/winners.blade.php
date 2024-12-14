@@ -8,21 +8,25 @@
     <section id="hero" class="hero section dark-background" style="position: relative;">
         <div class="container" style="position: relative; z-index: 2;">
             <div class="row gy-4">
-                <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="zoom-out">
+                <div
+                    class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center align-items-center text-center"
+                    data-aos="zoom-out">
                     <h1 style="font-size: 3rem; font-weight: bold; color: #fff; text-transform: uppercase; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); line-height: 1.2;">
                         XPRO AWARD 2024
                     </h1>
                     <!-- Subheading with a softer, modern feel -->
 
                     <p style="font-size: 1.2rem; color: #f4f4f4; font-style: italic; margin-top: 10px;">
-                        Welcome to the XPRO Award Winners page! Celebrate the remarkable individuals who have earned recognition for their outstanding achievements in 2024.
+                        Welcome to the XPRO Award Winners page! Celebrate the remarkable individuals who have earned
+                        recognition for their outstanding achievements in 2024.
                     </p>
 
                     <div class="d-flex">
                         <a href="#categories" class="btn-get-started">Explore the Winners</a>
                     </div>
                 </div>
-                <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="200"
+                <div class="col-lg-6 order-1 order-lg-2 hero-img d-flex flex-column justify-content-center"
+                     data-aos="zoom-out" data-aos-delay="200"
                      style="z-index: 3; position: relative;">
                     <img src="assets/img/logo.png" class="img-fluid animated" alt="XPRO Award 2024"
                          style="max-height: 400px;">
@@ -43,7 +47,8 @@
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2>2024 WINNERS</h2>
-            <p>Here are the winners of each category for the XPRO Awards 2024. Congratulations to all the nominees and winners!</p>
+            <p>Here are the winners of each category for the XPRO Awards 2024. Congratulations to all the nominees and
+                winners!</p>
             <p>Check out the total vote counts and celebrate the outstanding achievements of your favorites!</p>
         </div><!-- End Section Title -->
 

@@ -9,15 +9,9 @@ use Flasher\Laravel\Facade\Flasher;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
-use App\Models\User;
+use App\Models\Nominee;
 use App\Models\Vote;
 use App\Models\Category;
-use Carbon\Carbon;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
-
-//use Intervention\Image\Drivers\Imagick\Driver;
-use Intervention\Image\Typography\FontFactory;
 
 
 class AdminController extends Controller
@@ -25,7 +19,13 @@ class AdminController extends Controller
     public function dashboard()
     {
         $pageTitle = 'Admin Dashboard';
-        return view('admin.dashboard', compact('pageTitle'));
+
+        // Fetch analytics data
+        $totalCategories = Category::count();
+        $totalNominees = Nominee::count();
+        $totalVotes = Vote::count();
+
+        return view('admin.dashboard', compact('pageTitle', 'totalCategories', 'totalNominees', 'totalVotes'));
     }
 
     public function profile()

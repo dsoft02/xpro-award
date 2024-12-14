@@ -25,7 +25,7 @@
         <div class="container">
 
             <div class="row gy-4">
-                <div class="col-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-4 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
                     <div class="services-list">
                         @foreach($categories as $cat)
                         <a href="{{ route('category.show', $cat->id) }}"
@@ -36,11 +36,11 @@
                     </div>
                 </div>
 
-                <div class="col-6 col-lg-8" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-8 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="200">
                     <div class="row">
                         <!-- Nominee 1 -->
                         @foreach($category->nominees as $nominee)
-                        <div class="col-lg-4 mb-4">
+                        <div class="col-6 col-lg-4 mb-4">
                             <div class="card nominee-card">
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <h5 class="card-title">{{ $nominee->name }}</h5>
@@ -49,7 +49,7 @@
                                     </div>
                                     @if(isVotingEnabled())
                                         <!-- Vote Button for Each Nominee -->
-                                        <button type="button" class="btn btn-primary mt-3" onclick="openVoteModal({{ $nominee->id }}, {{ $category->id }})">Vote</button>
+                                        <button type="button" class="btn btn-primary form-control mt-3" onclick="openVoteModal({{ $nominee->id }}, {{ $category->id }})">Vote</button>
                                     @endif
                                 </div>
                             </div>
