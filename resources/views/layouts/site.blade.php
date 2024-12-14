@@ -44,7 +44,9 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{{ route('home') }}" class="active">Home</a></li>
+          @if(isDeclareWinnerEnabled())
           <li><a href="{{ route('winners') }}">Winners</a></li>
+          @endif
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>

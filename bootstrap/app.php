@@ -11,7 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'check.voting' => \App\Http\Middleware\CheckVotingStatus::class,
+            'check.declare_winner' => \App\Http\Middleware\CheckDeclareWinnerEnabled::class,
+        ]);
+        $middleware->append(\App\Http\Middleware\CheckVotingAndDisable::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

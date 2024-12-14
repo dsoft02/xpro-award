@@ -127,8 +127,6 @@ if (!function_exists('getDefaultDomains')) {
     }
 }
 
-
-
 if (!function_exists('isDeclareWinnerEnabled')) {
     function isDeclareWinnerEnabled()
     {
@@ -136,25 +134,13 @@ if (!function_exists('isDeclareWinnerEnabled')) {
     }
 }
 
-if (!function_exists('getWinner')) {
-    function getWinner()
-    {
-        if (isDeclareWinnerEnabled()) {
-            return Contestant::withCount('votes')
-                ->orderBy('votes_count', 'desc')
-                ->first();
-        }
-        return null;
-    }
-}
-
 if (!function_exists('checkAndDisableVoting')) {
     function checkAndDisableVoting()
     {
-        $enableVoting = Setting::where('key', 'enable_voting')->value('value');
-        $votingEndDate = Setting::where('key', 'voting_enddate')->value('value');
+        $enableVoting = Setting::getValue('enable_voting', false);
+        $votingEndTime = Setting::getValue('voting_end_time');
 
-        if ($enableVoting && Carbon::parse($votingEndDate)->isPast()) {
+        if ($enableVoting && ($votingEndTime && strtotime($votingEndTime) < time())) {
             Setting::updateOrCreate(['key' => 'enable_voting'], ['value' => 0]);
         }
     }

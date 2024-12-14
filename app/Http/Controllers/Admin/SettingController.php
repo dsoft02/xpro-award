@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 
 class SettingController extends Controller
 {
@@ -17,58 +15,55 @@ class SettingController extends Controller
      */
     public function index()
     {
-        checkAndDisableVoting();
-        // Retrieve all settings as key-value pairs
-        //$settings = Setting::all()->pluck('value', 'key');
+        // Retrieve all settings as key-value pairs and convert to an object for easy access
         $settings = (object) Setting::all()->pluck('value', 'key')->toArray();
 
         // Pass settings to the view
         return view('admin.settings.index', compact('settings'));
     }
 
+/**
+     * Update the settings.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
-        // Handle file uploads if present
-        $this->updateFile($request, 'light_logo');
-        $this->updateFile($request, 'dark_logo');
-        $this->updateFile($request, 'light_icon');
-        $this->updateFile($request, 'dark_icon');
-        $this->updateFile($request, 'favicon');
+        // Validate required fields for specific settings
+        $validated = $request->validate([
+            'site_name' => 'nullable|string|max:255',
+            'enable_voting' => 'nullable|boolean',
+            'declare_winner' => 'nullable|boolean',
+            'voting_start_time' => 'nullable|date',
+            'voting_end_time' => 'nullable|date|after_or_equal:voting_start_time',
+            'whitelist_domains' => 'nullable|string|max:500',
+        ]);
 
-        // Update other settings
-        $settings = $request->except('_token', 'light_logo', 'dark_logo', 'light_icon', 'dark_icon', 'favicon', 'save_changes');
+        $settings = $validated;
 
-        // If declare_winner is set, then set enable_voting to 0
-        if ($request->has('declare_winner')) {
-            $settings['enable_voting'] = 0;
+        // Manage dependencies between settings
+        if ($request->has('declare_winner') && $request->boolean('declare_winner')) {
+            $settings['enable_voting'] = 0; // Disable voting if declaring a winner
         } else {
-            // Ensure enable_voting is set to 0 if not present
-            if (!$request->has('enable_voting')) {
+            // Ensure `enable_voting` is toggled off if the voting period has ended
+            if ($request->has('voting_end_time') && strtotime($request->input('voting_end_time')) < time()) {
                 $settings['enable_voting'] = 0;
-            } else {
-                if ($request->has('voting_enddate') && strtotime($request->input('voting_enddate')) < time()) {
-                    $settings['enable_voting'] = 0;
-                }
             }
         }
 
-        // Ensure declare_winner is set to 0 if not present
-        if (!$request->has('declare_winner')) {
-            $settings['declare_winner'] = 0;
-        }
+        // Ensure unset keys are explicitly disabled
+        $settings['enable_voting'] = $request->boolean('enable_voting', false);
+        $settings['declare_winner'] = $request->boolean('declare_winner', false);
 
+        // Save or update each setting
         foreach ($settings as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
-        return redirect()->route('settings.index')->with('success', 'Settings updated successfully.');
-    }
+        // Clear the settings cache to reflect changes
+        Setting::clearCache();
 
-    private function updateFile(Request $request, $key)
-    {
-        if ($request->hasFile($key)) {
-            $filePath = $request->file($key)->store('settings', 'public');
-            Setting::updateOrCreate(['key' => $key], ['value' => $filePath]);
-        }
+        return redirect()->route('admin.settings.index')->with('success', 'Settings updated successfully.');
     }
 }

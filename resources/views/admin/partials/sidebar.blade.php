@@ -32,11 +32,17 @@
                     href="{{ route('admin.nominees.index') }}"><i
                         class="fa fa-users"></i> <span>Nominees</span></a></li>
 
-            <li class="{{ isActiveRoute('admin.dashboard') }}"><a href="{{ route('admin.dashboard') }}"><i
-                        class="fa fa-signal"></i> <span>Votes</span></a></li>
+            <li class="{{ isActiveRoute('admin.votes.index') }}">
+                <a href="{{ route('admin.votes.index') }}">
+                    <i class="fa fa-signal"></i> <span>Votes</span>
+                </a>
+            </li>
 
-            <li class="{{ isActiveRoute('admin.dashboard') }}"><a href="{{ route('admin.dashboard') }}"><i
-                        class="fa fa-trophy"></i> <span>Winners</span></a></li>
+            <li class="{{ isActiveRoute('admin.winners.index') }}">
+                <a href="{{ route('admin.winners.index') }}">
+                    <i class="fa fa-trophy"></i> <span>Winners</span>
+                </a>
+            </li>
 
             <li class="{{ isActiveRoute('admin.settings.index') }}">
                 <a href="{{ route('admin.settings.index') }}">

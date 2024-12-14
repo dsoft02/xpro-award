@@ -47,9 +47,10 @@
                                     <div class="vote-info">
                                         <span class="vote-count">Votes: {{ $nominee->votes->count() }}</span>
                                     </div>
-
-                                    <!-- Vote Button for Each Nominee -->
-                                    <button type="button" class="btn btn-primary mt-3" onclick="openVoteModal({{ $nominee->id }}, {{ $category->id }})">Vote</button>
+                                    @if(isVotingEnabled())
+                                        <!-- Vote Button for Each Nominee -->
+                                        <button type="button" class="btn btn-primary mt-3" onclick="openVoteModal({{ $nominee->id }}, {{ $category->id }})">Vote</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
