@@ -71,23 +71,23 @@
                             <h3 class="box-title"> <i class="fa fa-university"></i> Quick icon</h3>
                         </div>
 
-                        <a href="https://rms.codervex.com/classes/classlist" class="btn btn-app">
+                        <a href="{{ route('admin.categories.index') }}" class="btn btn-app">
                   	    <i class="fa fa-briefcase"></i> Categories                        </a>
 
-                        <a href="https://rms.codervex.com/classes/add" class="btn btn-app">
+                        <a href="{{ route('admin.nominees.index') }}" class="btn btn-app">
                   	    <i class="fa fa-users"></i> Nominees                        </a>
 
-                        <a href="https://rms.codervex.com/subjects" class="btn btn-app">
+                        <a href="{{ route('admin.votes.index') }}" class="btn btn-app">
                   	    <i class="fa fa-signal"></i> Votes                        </a>
 
-                        <a href="https://rms.codervex.com/subjects/add" class="btn btn-app">
+                        <a href="{{ route('admin.winners.index') }}" class="btn btn-app">
                   	    <i class="fa fa-trophy"></i> Winners                        </a>
 
-                        <a href="https://rms.codervex.com/departments/departmentslist" class="btn btn-app">
+                        <a href="{{ route('admin.settings.index') }}" class="btn btn-app">
                         <i class="fa fa-cog"></i> Settings
                         </a>
 
-                        <a href="https://rms.codervex.com/user/userlist" class="btn btn-app">
+                        <a href="{{ route('applogout') }}" class="btn btn-app">
                   	    <i class="fa fa-sign-out"></i> Logout                        </a>
 
                     </div>
