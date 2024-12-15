@@ -32,6 +32,10 @@
                     href="{{ route('admin.nominees.index') }}"><i
                         class="fa fa-users"></i> <span>Nominees</span></a></li>
 
+            <li class="{{ isActiveRoute(['admin.voters.index','admin.voters.create','admin.voters.edit']) }}"><a
+                    href="{{ route('admin.voters.index') }}"><i
+                        class="fa fa-users"></i> <span>Voters</span></a></li>
+
             <li class="{{ isActiveRoute('admin.votes.index') }}">
                 <a href="{{ route('admin.votes.index') }}">
                     <i class="fa fa-signal"></i> <span>Votes</span>

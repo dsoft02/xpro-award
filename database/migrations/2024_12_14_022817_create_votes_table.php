@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->string('email');
+            $table->foreignId('voter_id')->constrained()->onDelete('cascade');
             $table->string('ip_address');
-            $table->foreignId('nominee_id')->constrained();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('nominee_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
             // Ensure a voter can only vote once per category (based on email + category_id OR ip_address + category_id)
-            $table->unique(['email', 'category_id']);
+            $table->unique(['voter_id', 'category_id']);
             $table->unique(['ip_address', 'category_id']);
         });
     }

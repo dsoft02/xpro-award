@@ -26,16 +26,28 @@ class NomineeSeeder extends Seeder
             'NIKKY', 'PLAN', 'OKEIMUTE', 'ADEOLA', 'ICHIAKO', 'SEYE', 'YINKA SHAGI'
         ];
 
-        // Get all category IDs
-        $categoryIds = Category::pluck('id');
+        // Nominees for the "Best Goalkeeper Xpro - 2024" category
+        $goalkeeperNominees = ['Bassey', 'Atanda', 'Olumide'];
+
+        // Get category IDs
+        $allCategoryIds = Category::pluck('id')->all();
+        $goalkeeperCategoryId = Category::where('name', 'Best Goalkeeper Xpro - 2024')->value('id');
 
         // Loop through each nominee
         foreach ($nominees as $nomineeName) {
             // Create a new nominee
             $nominee = Nominee::create(['name' => $nomineeName]);
 
-            // Attach all categories to the nominee
-            $nominee->categories()->attach($categoryIds);
+            // Attach all categories except the goalkeeper category
+            $nominee->categories()->attach(
+                array_diff($allCategoryIds, [$goalkeeperCategoryId])
+            );
+        }
+
+        // Handle goalkeeper category separately
+        foreach ($goalkeeperNominees as $goalkeeperName) {
+            $goalkeeperNominee = Nominee::create(['name' => $goalkeeperName]);
+            $goalkeeperNominee->categories()->attach($goalkeeperCategoryId);
         }
     }
 }

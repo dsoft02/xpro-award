@@ -45,7 +45,7 @@
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <h5 class="card-title">{{ $nominee->name }}</h5>
                                     <div class="vote-info">
-                                        <span class="vote-count">Votes: {{ $nominee->votes->count() }}</span>
+                                        <span class="vote-count">Votes: {{ $nominee->votes_count }}</span>
                                     </div>
                                     @if(isVotingEnabled())
                                         <!-- Vote Button for Each Nominee -->

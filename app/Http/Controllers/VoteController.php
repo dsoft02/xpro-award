@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Vote;
+use App\Models\Voter;
 use App\Models\Category;
 use App\Models\Nominee;
 use Illuminate\Validation\ValidationException;
@@ -11,7 +12,7 @@ use App\Rules\AllowedEmailDomain;
 
 class VoteController extends Controller
 {
-    public function store($nomineeId, $categoryId, Request $request)
+    public function store_old($nomineeId, $categoryId, Request $request)
     {
         try {
             // Validate the email with custom rule
@@ -47,6 +48,63 @@ class VoteController extends Controller
         return back()->with('success', 'Thank you for voting!');
     }
 
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'username' => 'required|string',
+            'team_name' => 'required|string',
+            'votes' => 'required|array', // Ensure votes is an array
+            'votes.*' => 'nullable|exists:nominees,id', // Validate each nominee exists
+        ]);
+
+        // Find the voter using the username and team name
+        $voter = Voter::where('username', $validatedData['username'])
+            ->where('team_name', $validatedData['team_name'])
+            ->first();
+
+        // Check if the voter exists
+        if (!$voter) {
+            return redirect()->back()->with('error', 'Invalid username or team name.');
+        }
+
+        $savedVotes = 0;
+        $skippedVotes = 0;
+
+        // Loop through each category vote
+        foreach ($validatedData['votes'] as $categoryId => $nomineeId) {
+            if (!$nomineeId) {
+                continue; // Skip empty selections
+            }
+
+            // Check if the voter or the IP address has already voted in this category
+            $existingVote = Vote::where(function ($query) use ($voter, $categoryId, $request) {
+                $query->where('voter_id', $voter->id)
+                    ->orWhere('ip_address', $request->ip());
+            })
+                ->where('category_id', $categoryId)
+                ->exists();
+
+            if ($existingVote) {
+                $skippedVotes++;
+                continue; // Skip this category if already voted
+            }
+
+            // Create the vote
+            Vote::create([
+                'voter_id' => $voter->id,
+                'ip_address' => $request->ip(),
+                'nominee_id' => $nomineeId,
+                'category_id' => $categoryId,
+            ]);
+
+            $savedVotes++;
+        }
+
+        // Return response with saved and skipped counts
+        return redirect()->back()->with('success', "Your votes have been submitted successfully! Votes saved: $savedVotes, votes skipped: $skippedVotes.");
+    }
+
+
     public function showVotes(Request $request)
     {
         $categories = Category::all();
@@ -73,7 +131,7 @@ class VoteController extends Controller
     {
         $categories = Category::with(['nominees' => function ($query) {
             $query->withCount('votes')
-            ->orderBy('votes_count', 'desc');
+                ->orderBy('votes_count', 'desc');
         }])->get();
 
         return view('admin.winners.index', compact('categories'));

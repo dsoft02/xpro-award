@@ -15,7 +15,7 @@ class SettingSeeder extends Seeder
             ['key' => 'declare_winner', 'value' => '0'],
             ['key' => 'voting_start_time', 'value' => ''],
             ['key' => 'voting_end_time', 'value' => ''],
-            ['key' => 'voting_end_time', 'value' => 'gmail.com,yahoo.com,outlook.com,hotmail.com,icloud.com'],
+            ['key' => 'whitelist_domains', 'value' => 'gmail.com,yahoo.com,outlook.com,hotmail.com,icloud.com'],
         ];
 
         foreach ($settings as $setting) {

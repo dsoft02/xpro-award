@@ -28,5 +28,4 @@ class Nominee extends Model
         return $this->votes()->where('category_id', $categoryId)->count();
     }
 
-
 }

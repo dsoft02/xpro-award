@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
          $this->call([
             CategorySeeder::class,
             NomineeSeeder::class,
-//            VoteSeeder::class,
+            //VoteSeeder::class,
+            VotersSeeder::class,
             SettingSeeder::class,
         ]);
     }

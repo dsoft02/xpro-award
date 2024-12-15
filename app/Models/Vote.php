@@ -9,7 +9,12 @@ class Vote extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['email', 'ip_address', 'nominee_id', 'category_id'];
+    protected $fillable = ['voter_id', 'ip_address', 'nominee_id', 'category_id'];
+
+    public function voter()
+    {
+        return $this->belongsTo(Voter::class);
+    }
 
     // Relationship with nominee
     public function nominee()

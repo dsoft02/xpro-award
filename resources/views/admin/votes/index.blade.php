@@ -62,7 +62,7 @@
                         @foreach($votes as $key => $vote)
                         <tr>
                             <td>{{ $key + 1 }}</td>
-                            <td>{{ $vote->email }}</td>
+                            <td>{{ $vote->voter->username }}</td>
                             <td>{{ $vote->category->name }}</td>
                             <td>{{ $vote->nominee->name }}</td>
                             <td>{{ $vote->created_at->format('Y-m-d H:i:s') }}</td>

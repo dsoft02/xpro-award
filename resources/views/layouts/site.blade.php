@@ -23,7 +23,8 @@
   <link href="{{ asset('assets/vendor/aos/aos.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{ asset('backend/plugins/select2/dist/css/select2.min.css') }}">
   <!-- Main CSS File -->
   <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/css/custom-styles.css') }}" rel="stylesheet">
@@ -69,6 +70,8 @@
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
+  <!-- jQuery 3 -->
+  <script src="{{ asset('backend/plugins/jquery/dist/jquery.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
   <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
@@ -77,6 +80,7 @@
   <script src="{{ asset('assets/vendor/waypoints/noframework.waypoints.js') }}"></script>
   <script src="{{ asset('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ asset('backend/plugins/select2/dist/js/select2.full.min.js') }}"></script>
 
   <!-- Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
