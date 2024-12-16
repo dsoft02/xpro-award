@@ -100,8 +100,13 @@ class VoteController extends Controller
             $savedVotes++;
         }
 
+         // Check if no votes were saved
+        if ($savedVotes === 0 || empty($savedVotes)) {
+            return redirect()->back()->with('error', 'Sorry you have already voted in all categories.');
+        }
+
         // Return response with saved and skipped counts
-        return redirect()->back()->with('success', "Your votes have been submitted successfully! Votes saved: $savedVotes, votes skipped: $skippedVotes.");
+        return redirect()->back()->with('success', "Your votes have been submitted successfully!");
     }
 
 
@@ -127,7 +132,7 @@ class VoteController extends Controller
         return redirect()->route('admin.votes.index')->with('success', 'All votes have been reset.');
     }
 
-    public function showWinners()
+    public function showWinners_old()
     {
         $categories = Category::with(['nominees' => function ($query) {
             $query->withCount('votes')
@@ -136,5 +141,18 @@ class VoteController extends Controller
 
         return view('admin.winners.index', compact('categories'));
     }
+
+    public function showWinners()
+    {
+        $categories = Category::with(['nominees' => function ($query) {
+            $query->withCount(['votes as votes_count' => function ($subQuery) {
+                $subQuery->whereColumn('votes.category_id', 'category_nominee.category_id');
+            }])
+                ->orderBy('votes_count', 'desc');
+        }])->get();
+
+        return view('admin.winners.index', compact('categories'));
+    }
+
 
 }

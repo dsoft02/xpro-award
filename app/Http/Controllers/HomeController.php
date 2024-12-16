@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Voter;
 
 class HomeController extends Controller
 {
@@ -11,7 +12,8 @@ class HomeController extends Controller
     {
         $pageTitle = '';
         $categories = Category::all();
-        return view('home', compact('pageTitle', 'categories'));
+        $voters = Voter::all();
+        return view('home', compact('pageTitle', 'categories', 'voters'));
     }
 
     public function showCategory($id)

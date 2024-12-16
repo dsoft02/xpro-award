@@ -65,8 +65,9 @@
                                 {{ $category->name }}
                             </h4>
                         </div>
+                        <p style="font-style:italic; margin-bottom:5px;">{{ $category->description }}</p>
                         @if(isVotingEnabled())
-                        <select name="votes[{{ $category->id }}]" class="form-control select2 nomselbox" style="width: 100%;">
+                        <select name="votes[{{ $category->id }}]" class="form-control select2 nomselbox" style="width: 100%;" required>
                             <option value="">-- Select a nominee --</option>
                             @foreach($category->nominees as $nominee)
                                 <option value="{{ $nominee->id }}">{{ $nominee->name }}</option>
@@ -102,11 +103,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Please confirm your vote by entering your username and answer the question that follows.</p>
+                <p>Please confirm your vote by entering your name and answer the question that follows.</p>
                 <div class="mb-3">
-                    <label for="modalUsernameInput" class="form-label"><b>Username</b></label>
-                    <input type="text" id="modalUsernameInput" class="form-control" name="usernameInput"
-                           placeholder="Enter your username">
+                    <label for="modalUsernameInput" class="form-label"><b>Name</b></label>
+                    @if($voters->isNotEmpty())
+                    <select class="form-control usersel" id="modalUsernameInput" name="usernameInput"
+                            style="width: 100%;">
+                        <option value="">Select your name</option>
+                        @foreach($voters as $key => $voter)
+                        <option>{{ $voter->username }}</option>
+                        @endforeach
+                    </select>
+                    @else
+                    <input type="text" class="form-control" id="modalUsernameInput" name="usernameInput" required/>
+                    @endif
                 </div>
                 <div class="mb-3">
                     <label for="modalTeamInput" class="form-label"><b>What team were you on during the last Super League tournament?</b></label>
@@ -132,10 +142,21 @@
 @push('scripts')
 <script>
   $(function () {
-    $('.select2').select2()
+    $('.select2').select2();
+    $('.usersel').select2({
+        dropdownParent: $("#voteModal")
+    });
+
   })
 
   function openVoteModal() {
+      const selectBoxes = document.querySelectorAll('select.nomselbox');
+      const allSelected = Array.from(selectBoxes).every(selectBox => selectBox.value !== '');
+      if (!allSelected) {
+          alert('Please select a nominee in every category to continue.');
+          return;
+      }
+
       // Show the modal
       const voteModal = new bootstrap.Modal(document.getElementById('voteModal'));
       voteModal.show();
@@ -162,10 +183,9 @@
         document.getElementById('team_name').value = teamname;
 
         const selectBoxes = document.querySelectorAll('select.nomselbox');
-        const hasSelection = Array.from(selectBoxes).some(selectBox => selectBox.value !== '');
-        // Display an alert if none have a selected value
-        if (!hasSelection) {
-            alert('Please select a nominee in at least one category.');
+        const allSelected = Array.from(selectBoxes).every(selectBox => selectBox.value !== '');
+        if (!allSelected) {
+            alert('Please select a nominee in every category.');
             return;
         }
 
